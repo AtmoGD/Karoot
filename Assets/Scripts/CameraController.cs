@@ -8,6 +8,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float smoothSpeed = 0.125f;
     [SerializeField] private Vector3 offset;
     [SerializeField] private float toleranceY = 2f;
+    [SerializeField] private float upSpeed = 0.5f;
 
     private float minY;
 
@@ -23,5 +24,7 @@ public class CameraController : MonoBehaviour
 
         if (transform.position.y > minY)
             minY = transform.position.y;
+
+        minY += upSpeed * Time.deltaTime;
     }
 }

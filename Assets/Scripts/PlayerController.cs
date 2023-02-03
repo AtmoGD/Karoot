@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float speed = 5f;
     [SerializeField] private float lerpSpeed = 5f;
     [SerializeField] private float jumpForce = 5f;
+    [SerializeField] private float mushroomJumpForce = 15f;
+    [SerializeField] private float mosquitoJumpForce = 8f;
     [SerializeField] private float coyoteTime = 0.2f;
     [SerializeField] private float gravity = 9.81f;
     [SerializeField] private float gravityLerpSpeed = 5f;
@@ -38,7 +40,7 @@ public class PlayerController : MonoBehaviour
             lastGroundedTime = Time.time;
 
         if (jumpInput && WasGrounded)
-            Jump();
+            Jump(jumpForce);
 
         Move();
     }
@@ -56,10 +58,20 @@ public class PlayerController : MonoBehaviour
             jumpInput = false;
     }
 
-    public void Jump()
+    public void Jump(float _force)
     {
-        rb.AddForce(Vector2.up * jumpForce, ForceMode.Impulse);
+        rb.AddForce(Vector2.up * _force, ForceMode.Impulse);
         jumpInput = false;
+    }
+
+    public void JumpOnMushroom()
+    {
+        Jump(mushroomJumpForce);
+    }
+
+    public void JumpOnMosquito()
+    {
+        Jump(mosquitoJumpForce);
     }
 
     public void Move()
