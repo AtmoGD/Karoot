@@ -58,8 +58,12 @@ MonoBehaviour:
   speed: 18
   lerpSpeed: 8
   jumpForce: 40
+  mushroomJumpForce: 70
+  mosquitoJumpForce: 50
+  coyoteTime: 0.2
   gravity: 9.81
   gravityLerpSpeed: 5
+  showGizmos: 1
 --- !u!114 &8906420784487332152
 MonoBehaviour:
   m_ObjectHideFlags: 0

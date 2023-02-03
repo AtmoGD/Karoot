@@ -6,6 +6,7 @@ public class CameraController : MonoBehaviour
 {
     [SerializeField] private Transform target;
     [SerializeField] private float smoothSpeed = 0.125f;
+    [SerializeField] private float smoothTolerance = 0.1f;
     [SerializeField] private Vector3 offset;
     [SerializeField] private float toleranceY = 2f;
     [SerializeField] private float upSpeed = 0.5f;
@@ -16,6 +17,9 @@ public class CameraController : MonoBehaviour
     {
         Vector3 desiredPosition = target.position + offset;
         float smoothedPositionY = Mathf.Lerp(transform.position.y, desiredPosition.y, smoothSpeed * Time.deltaTime);
+
+        if (Mathf.Abs(transform.position.y - desiredPosition.y) < smoothTolerance)
+            smoothedPositionY = desiredPosition.y;
 
         transform.position = new Vector3(transform.position.x, smoothedPositionY, transform.position.z);
 
