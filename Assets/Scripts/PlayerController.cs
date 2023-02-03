@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float speed = 5f;
     [SerializeField] private float lerpSpeed = 5f;
     [SerializeField] private float jumpForce = 5f;
+    [SerializeField] private float gravity = 9.81f;
+    [SerializeField] private float gravityLerpSpeed = 5f;
 
 
     private Vector2 moveInput;
@@ -29,14 +31,9 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         if (jumpInput && IsGrounded)
-        {
-            rb.AddForce(Vector2.up * jumpForce, ForceMode.Impulse);
-        }
-    }
+            Jump();
 
-    private void FixedUpdate()
-    {
-        rb.velocity = Vector2.Lerp(rb.velocity, new Vector2(moveInput.x * speed, rb.velocity.y), lerpSpeed * Time.deltaTime);
+        Move();
     }
 
     public void OnMove(InputAction.CallbackContext _context)
@@ -52,9 +49,30 @@ public class PlayerController : MonoBehaviour
             jumpInput = false;
     }
 
+    public void Jump()
+    {
+        rb.AddForce(Vector2.up * jumpForce, ForceMode.Impulse);
+        jumpInput = false;
+    }
+
+    public void Move()
+    {
+        Vector2 newVelocity = rb.velocity;
+
+        newVelocity.x = Mathf.Lerp(rb.velocity.x, moveInput.x * speed, lerpSpeed * Time.deltaTime);
+        newVelocity.y = Mathf.Lerp(rb.velocity.y, -gravity, gravityLerpSpeed * Time.deltaTime);
+
+        rb.velocity = newVelocity;
+    }
+
+#if UNITY_EDITOR
+    public bool showGizmos = true;
     private void OnDrawGizmos()
     {
+        if (!showGizmos) return;
+
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
     }
+#endif
 }

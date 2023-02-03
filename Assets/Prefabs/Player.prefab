@@ -55,9 +55,11 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 2048
-  speed: 5
-  lerpSpeed: 5
-  jumpForce: 5
+  speed: 18
+  lerpSpeed: 8
+  jumpForce: 40
+  gravity: 9.81
+  gravityLerpSpeed: 5
 --- !u!114 &8906420784487332152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,7 +180,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2650386310456239807}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 752ded50740c8b74994b5506c7becdbc, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
