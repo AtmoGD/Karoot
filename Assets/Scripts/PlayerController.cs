@@ -13,9 +13,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundCheckRadius = 0.1f;
     [SerializeField] private LayerMask groundLayer;
-    public bool IsGrounded { get { return Physics.OverlapSphere(groundCheck.position, groundCheckRadius, groundLayer).Length > 0; } }
-    public bool WasGrounded { get { return Time.time - lastGroundedTime < coyoteTime; } }
+    [SerializeField] private List<GameObject> healthIcons = new List<GameObject>();
 
+    [SerializeField] private int maxHealth = 3;
     [SerializeField] private float speed = 5f;
     [SerializeField] private float lerpSpeed = 5f;
     [SerializeField] private float jumpForce = 5f;
@@ -26,7 +26,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float gravityLerpSpeed = 5f;
     [SerializeField] private float rootTime = 1f;
     [SerializeField] private float rootCameraSpeedMultiplier = 0.2f;
+    [SerializeField] private bool autoJump = true;
+    [SerializeField] private float jumpTimeout = 0.5f;
 
+    public bool IsGrounded { get { return Physics.OverlapSphere(groundCheck.position, groundCheckRadius, groundLayer).Length > 0; } }
+    public bool WasGrounded { get { return Time.time - lastGroundedTime < coyoteTime; } }
+    public bool CanJump { get { return Time.time - lastJumpTime > jumpTimeout; } }
+    public int Health { get; private set; }
 
     private Vector2 moveInput;
     private bool jumpInput;
@@ -35,11 +41,12 @@ public class PlayerController : MonoBehaviour
     private float lastGroundedTime;
     private bool isRooted;
     private float rootTimer;
-
+    private float lastJumpTime;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        Health = maxHealth;
     }
 
     private void Update()
@@ -62,7 +69,12 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if (jumpInput && WasGrounded)
+        if (autoJump)
+        {
+            if (IsGrounded && rb.velocity.y < 1f && CanJump)
+                Jump(jumpForce);
+        }
+        else if (jumpInput && WasGrounded && CanJump)
             Jump(jumpForce);
 
         if (rootInput && IsGrounded)
@@ -121,6 +133,7 @@ public class PlayerController : MonoBehaviour
     {
         rb.AddForce(Vector2.up * _force, ForceMode.Impulse);
         jumpInput = false;
+        lastJumpTime = Time.time;
     }
 
     public void JumpOnMushroom()
@@ -146,11 +159,42 @@ public class PlayerController : MonoBehaviour
         camController.Multiplier = _root ? rootCameraSpeedMultiplier : 1f;
     }
 
+    public void TakeDamage()
+    {
+        Health--;
+
+        UpdateIcons();
+
+        if (Health <= 0)
+            Die();
+    }
+
+    public void Heal()
+    {
+        Health++;
+
+        UpdateIcons();
+
+        if (Health > maxHealth)
+            Health = maxHealth;
+    }
+
+    public void UpdateIcons()
+    {
+        for (int i = 0; i < healthIcons.Count; i++)
+        {
+            if (i < Health)
+                healthIcons[i].SetActive(true);
+            else
+                healthIcons[i].SetActive(false);
+        }
+    }
+
     public void WindHit()
     {
         if (isRooted) return;
 
-        Die();
+        TakeDamage();
     }
 
     public void Die()
