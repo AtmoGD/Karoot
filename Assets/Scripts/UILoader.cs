@@ -6,7 +6,7 @@ public class UILoader : MonoBehaviour
     public static bool gameIsPaused = false;
 
     public GameObject pauseMenuUI;
-    
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -19,12 +19,12 @@ public class UILoader : MonoBehaviour
             {
                 Pause();
             }
-        }  
+        }
     }
 
     public void Resume()
     {
-        pauseMenuUI.SetActive(false);
+        pauseMenuUI?.SetActive(false);
         Time.timeScale = 1f;
         gameIsPaused = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -32,7 +32,7 @@ public class UILoader : MonoBehaviour
 
     private void Pause()
     {
-        pauseMenuUI.SetActive(true);
+        pauseMenuUI?.SetActive(true);
         Time.timeScale = 0f;
         gameIsPaused = true;
         Cursor.lockState = CursorLockMode.Confined;
