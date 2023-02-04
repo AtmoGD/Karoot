@@ -6,21 +6,30 @@ public class Wind : MonoBehaviour
 {
     [SerializeField] private float speed = 5f;
     [SerializeField] private float targetX = 0f;
+    [SerializeField] private float delay = 0.5f;
 
     private bool windActive = false;
+    private float delayTimer = 0f;
 
     private void Update()
     {
         if (!windActive) return;
+
+        if (delayTimer > 0f)
+        {
+            delayTimer -= Time.deltaTime;
+            return;
+        }
 
         Vector3 desiredPosition = transform.position;
         desiredPosition.x = targetX;
         transform.position = Vector3.Lerp(transform.position, desiredPosition, speed * Time.deltaTime);
     }
 
-    public void SetWindActive(bool active)
+    public void SetWindActive()
     {
-        windActive = active;
+        windActive = true;
+        delayTimer = delay;
     }
 
     private void OnTriggerEnter(Collider other)

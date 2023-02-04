@@ -17,7 +17,7 @@ public class WindTrigger : MonoBehaviour
         if (playerController != null)
         {
             windActive = true;
-            wind.SetWindActive(true);
+            wind.SetWindActive();
         }
     }
 }
