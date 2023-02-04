@@ -199,7 +199,9 @@ public class PlayerController : MonoBehaviour
 
     public void Die()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene("Loser");
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
 #if UNITY_EDITOR
