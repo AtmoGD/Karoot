@@ -71,9 +71,19 @@ public class PlayerController : MonoBehaviour
         Move();
     }
 
+    public void OnMove(Vector2 _moveInput)
+    {
+        moveInput = _moveInput;
+    }
+
     public void OnMove(InputAction.CallbackContext _context)
     {
         moveInput = _context.ReadValue<Vector2>();
+    }
+
+    public void OnJump()
+    {
+        jumpInput = true;
     }
 
     public void OnJump(InputAction.CallbackContext _context)
@@ -82,6 +92,11 @@ public class PlayerController : MonoBehaviour
             jumpInput = true;
         else if (_context.canceled)
             jumpInput = false;
+    }
+
+    public void OnRoot()
+    {
+        rootInput = true;
     }
 
     public void OnRoot(InputAction.CallbackContext _context)
