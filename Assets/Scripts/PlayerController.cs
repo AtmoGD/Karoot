@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
 {
     private Rigidbody rb;
 
+    [SerializeField] private CameraMovementController camController;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundCheckRadius = 0.1f;
     [SerializeField] private LayerMask groundLayer;
@@ -23,11 +24,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float coyoteTime = 0.2f;
     [SerializeField] private float gravity = 9.81f;
     [SerializeField] private float gravityLerpSpeed = 5f;
+    [SerializeField] private float rootTime = 1f;
+    [SerializeField] private float rootCameraSpeedMultiplier = 0.2f;
 
 
     private Vector2 moveInput;
     private bool jumpInput;
+    private bool rootInput;
+
     private float lastGroundedTime;
+    private bool isRooted;
+    private float rootTimer;
+
 
     private void Awake()
     {
@@ -39,8 +47,26 @@ public class PlayerController : MonoBehaviour
         if (IsGrounded)
             lastGroundedTime = Time.time;
 
+        if (isRooted)
+        {
+            rootTimer += Time.deltaTime;
+
+            rb.velocity = Vector2.zero;
+
+            if (rootTimer >= rootTime)
+            {
+                rootTimer = 0f;
+                Root(false);
+            }
+
+            return;
+        }
+
         if (jumpInput && WasGrounded)
             Jump(jumpForce);
+
+        if (rootInput && IsGrounded)
+            Root(true);
 
         Move();
     }
@@ -56,6 +82,24 @@ public class PlayerController : MonoBehaviour
             jumpInput = true;
         else if (_context.canceled)
             jumpInput = false;
+    }
+
+    public void OnRoot(InputAction.CallbackContext _context)
+    {
+        if (_context.started)
+            rootInput = true;
+        else if (_context.canceled)
+            rootInput = false;
+    }
+
+    public void Move()
+    {
+        Vector2 newVelocity = rb.velocity;
+
+        newVelocity.x = Mathf.Lerp(rb.velocity.x, moveInput.x * speed, lerpSpeed * Time.deltaTime);
+        newVelocity.y = Mathf.Lerp(rb.velocity.y, -gravity, gravityLerpSpeed * Time.deltaTime);
+
+        rb.velocity = newVelocity;
     }
 
     public void Jump(float _force)
@@ -74,14 +118,24 @@ public class PlayerController : MonoBehaviour
         Jump(mosquitoJumpForce);
     }
 
-    public void Move()
+    public void Root(bool _root)
     {
-        Vector2 newVelocity = rb.velocity;
+        isRooted = _root;
 
-        newVelocity.x = Mathf.Lerp(rb.velocity.x, moveInput.x * speed, lerpSpeed * Time.deltaTime);
-        newVelocity.y = Mathf.Lerp(rb.velocity.y, -gravity, gravityLerpSpeed * Time.deltaTime);
+        if (_root)
+        {
+            rootInput = false;
+            rb.velocity = Vector2.zero;
+        }
 
-        rb.velocity = newVelocity;
+        camController.Multiplier = _root ? rootCameraSpeedMultiplier : 1f;
+    }
+
+    public void WindHit()
+    {
+        if (isRooted) return;
+
+        Die();
     }
 
     public void Die()

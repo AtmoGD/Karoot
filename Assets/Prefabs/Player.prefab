@@ -50,6 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de2f683ce84afb2459e0efea78b65a63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  camController: {fileID: 0}
   groundCheck: {fileID: 4080847871496866537}
   groundCheckRadius: 0.1
   groundLayer:
@@ -58,11 +59,13 @@ MonoBehaviour:
   speed: 18
   lerpSpeed: 8
   jumpForce: 40
-  mushroomJumpForce: 70
+  mushroomJumpForce: 60
   mosquitoJumpForce: 50
   coyoteTime: 0.2
   gravity: 9.81
   gravityLerpSpeed: 5
+  rootTime: 1.5
+  rootCameraSpeedMultiplier: 0.1
   showGizmos: 1
 --- !u!114 &8906420784487332152
 MonoBehaviour:
@@ -122,6 +125,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 19aac408-64ea-4e1d-ae5e-4d52dbb8dbaa
     m_ActionName: Game/Jump[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3762760132830353990}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnRoot
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 88159035-3f03-4d0c-91d7-9d8dc3df4c10
+    m_ActionName: Game/Rooting[/Keyboard/shift]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Game
