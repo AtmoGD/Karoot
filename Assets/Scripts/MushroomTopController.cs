@@ -10,6 +10,9 @@ public class MushroomTopController : MonoBehaviour
         PlayerController player = other.GetComponent<PlayerController>();
 
         if (player != null)
+        {
             player.JumpOnMushroom();
+            animator.SetTrigger("Squish");
+        }
     }
 }
