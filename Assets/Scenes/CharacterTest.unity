@@ -4140,6 +4140,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3762760132830353990, guid: 723e7c147b04d6642ae6e8faecbe6005,
         type: 3}
+      propertyPath: rootTime
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3762760132830353990, guid: 723e7c147b04d6642ae6e8faecbe6005,
+        type: 3}
       propertyPath: camController
       value: 
       objectReference: {fileID: 330585549}
