@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Mosquito : MonoBehaviour
 {
+    [SerializeField] private Animator animator;
     [SerializeField] private float speed = 5f;
     [SerializeField] private List<Vector3> waypoints = new List<Vector3>();
     [SerializeField] private float waitTime = 1f;
@@ -29,6 +30,8 @@ public class Mosquito : MonoBehaviour
         direction.y = 0f;
         direction.Normalize();
 
+        transform.localScale = new Vector3(-Mathf.Sign(direction.x), 1f, 1f);
+
         transform.position += direction * speed * Time.deltaTime;
 
         if (Vector3.Distance(transform.position, target) < 0.1f)
@@ -41,6 +44,17 @@ public class Mosquito : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter(Collision other)
+    {
+        PlayerController player = other.gameObject.GetComponent<PlayerController>();
+        if (player != null)
+        {
+            player.TakeDamage();
+            animator.SetTrigger("Squish");
+        }
+    }
+
+#if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
@@ -53,4 +67,5 @@ public class Mosquito : MonoBehaviour
                 Gizmos.DrawLine(waypoints[i], waypoints[0]);
         }
     }
+#endif
 }

@@ -30,12 +30,16 @@ public class Wind : MonoBehaviour
     {
         windActive = true;
         delayTimer = delay;
+        AudioManagement.AudioManager.Instance.Play("Wind");
     }
 
     private void OnTriggerEnter(Collider other)
     {
         PlayerController playerController = other.GetComponent<PlayerController>();
         if (playerController != null)
+        {
             playerController.WindHit();
+            AudioManagement.AudioManager.Instance.Play("GetHitWind");
+        }
     }
 }
