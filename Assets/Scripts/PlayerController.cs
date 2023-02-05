@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
 
     [SerializeField] private CameraMovementController camController;
+    [SerializeField] private Animator animator;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundCheckRadius = 0.1f;
     [SerializeField] private LayerMask groundLayer;
@@ -55,8 +56,8 @@ public class PlayerController : MonoBehaviour
         if (IsGrounded)
             lastGroundedTime = Time.time;
 
-        float volume = Mathf.Lerp(AudioManagement.AudioManager.Instance.GetVolume("KazooMusic"), isRooted ? 1f : 0f, soundLerpSpeed * Time.deltaTime);
-        AudioManagement.AudioManager.Instance.ChangeVolume("KazooMusic", volume);
+        // float volume = Mathf.Lerp(AudioManagement.AudioManager.Instance.GetVolume("KazooMusic"), isRooted ? 1f : 0f, soundLerpSpeed * Time.deltaTime);
+        // AudioManagement.AudioManager.Instance.ChangeVolume("KazooMusic", volume);
 
         if (isRooted)
         {
@@ -69,6 +70,8 @@ public class PlayerController : MonoBehaviour
                 rootTimer = 0f;
                 Root(false);
             }
+
+            UpdateAnimation(false, true, false);
 
             return;
         }
@@ -131,6 +134,19 @@ public class PlayerController : MonoBehaviour
         newVelocity.y = Mathf.Lerp(rb.velocity.y, -gravity, gravityLerpSpeed * Time.deltaTime);
 
         rb.velocity = newVelocity;
+
+        if (IsGrounded)
+            UpdateAnimation(true, false, false);
+        else
+            UpdateAnimation(false, false, true);
+
+        if (rb.velocity.x > 0.1f)
+            transform.rotation = Quaternion.Euler(0f, -90f, 0f);
+        else if (rb.velocity.x < -0.1f)
+            transform.rotation = Quaternion.Euler(0f, 90f, 0f);
+        else
+            transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+
     }
 
     public void Jump(float _force, bool _withSound = true)
@@ -222,6 +238,18 @@ public class PlayerController : MonoBehaviour
         // Cursor.lockState = CursorLockMode.Confined;
         AudioManagement.AudioManager.Instance.Play("Die");
 
+    }
+
+    public void UpdateAnimation(bool _run, bool _squat, bool _jump)
+    {
+        if (animator.GetBool("IsWalking") != _run)
+            animator.SetBool("IsWalking", _run);
+
+        if (animator.GetBool("IsRooting") != _squat)
+            animator.SetBool("IsRooting", _squat);
+
+        if (animator.GetBool("IsJumping") != _jump)
+            animator.SetBool("IsJumping", _jump);
     }
 
 #if UNITY_EDITOR

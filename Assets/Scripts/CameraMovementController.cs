@@ -5,6 +5,7 @@ using UnityEngine;
 public class CameraMovementController : MonoBehaviour
 {
     [SerializeField] private AnimationCurve moveFasterMultiplier = AnimationCurve.Linear(0f, 1f, 1f, 2f);
+    [SerializeField] private float moveDelay = 3f;
 
     public float Multiplier { get; set; } = 1f;
 
@@ -13,6 +14,8 @@ public class CameraMovementController : MonoBehaviour
     private void Update()
     {
         timeInGame += Time.deltaTime;
+
+        if (timeInGame < moveDelay) return;
 
         Vector3 desiredPosition = transform.position + Vector3.up;
         transform.position = Vector3.Lerp(transform.position, desiredPosition, moveFasterMultiplier.Evaluate(timeInGame) * Multiplier * Time.deltaTime);
