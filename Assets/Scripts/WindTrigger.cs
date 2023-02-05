@@ -18,6 +18,7 @@ public class WindTrigger : MonoBehaviour
         {
             windActive = true;
             wind.SetWindActive();
+            AudioManagement.AudioManager.Instance.Play("WindAnnouncement");
         }
     }
 }

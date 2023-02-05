@@ -101,10 +101,20 @@ namespace AudioManagement
                     .ForEach(sound => sound.source.volume = _volume);
         }
 
+        public float GetVolume(string _name)
+        {
+            return sounds.Find(sounds => sounds.name == _name).source.volume;
+        }
+
         public void ChangeVolume(SoundType _soundType, float _volume)
         {
             sounds.FindAll(sounds => sounds.soundType == _soundType)
                     .ForEach(sound => sound.source.volume = _volume);
+        }
+
+        public float GetVolume(SoundType _soundType)
+        {
+            return sounds.Find(sounds => sounds.soundType == _soundType).source.volume;
         }
     }
 }

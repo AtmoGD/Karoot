@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float rootCameraSpeedMultiplier = 0.2f;
     [SerializeField] private bool autoJump = true;
     [SerializeField] private float jumpTimeout = 0.5f;
+    [SerializeField] private float soundLerpSpeed = 5f;
 
     public bool IsGrounded { get { return Physics.OverlapSphere(groundCheck.position, groundCheckRadius, groundLayer).Length > 0; } }
     public bool WasGrounded { get { return Time.time - lastGroundedTime < coyoteTime; } }
@@ -54,9 +55,11 @@ public class PlayerController : MonoBehaviour
         if (IsGrounded)
             lastGroundedTime = Time.time;
 
+        float volume = Mathf.Lerp(AudioManagement.AudioManager.Instance.GetVolume("KazooMusic"), isRooted ? 1f : 0f, soundLerpSpeed * Time.deltaTime);
+        AudioManagement.AudioManager.Instance.ChangeVolume("KazooMusic", volume);
+
         if (isRooted)
         {
-            AudioManagement.AudioManager.Instance.ChangeVolume("KazooMusic", 1f);
             rootTimer += Time.deltaTime;
 
             rb.velocity = Vector2.zero;
@@ -69,8 +72,6 @@ public class PlayerController : MonoBehaviour
 
             return;
         }
-
-        AudioManagement.AudioManager.Instance.ChangeVolume("KazooMusic", 0f);
 
         if (autoJump)
         {
@@ -132,21 +133,30 @@ public class PlayerController : MonoBehaviour
         rb.velocity = newVelocity;
     }
 
-    public void Jump(float _force)
+    public void Jump(float _force, bool _withSound = true)
     {
         rb.AddForce(Vector2.up * _force, ForceMode.Impulse);
         jumpInput = false;
         lastJumpTime = Time.time;
+        if (_withSound)
+        {
+            int random = Random.Range(1, 4);
+            AudioManagement.AudioManager.Instance.Play("Jump0" + random);
+        }
     }
 
     public void JumpOnMushroom()
     {
-        Jump(mushroomJumpForce);
+        Jump(mushroomJumpForce, false);
+
+        int random = Random.Range(1, 4);
+        AudioManagement.AudioManager.Instance.Play("JumpMushroom0" + random);
+
     }
 
     public void JumpOnMosquito()
     {
-        Jump(mosquitoJumpForce);
+        Jump(mosquitoJumpForce, false);
     }
 
     public void Root(bool _root)
@@ -162,11 +172,14 @@ public class PlayerController : MonoBehaviour
         camController.Multiplier = _root ? rootCameraSpeedMultiplier : 1f;
     }
 
-    public void TakeDamage()
+    public void TakeDamage(bool _withSound = true)
     {
         Health--;
 
         UpdateIcons();
+
+        if (_withSound)
+            AudioManagement.AudioManager.Instance.Play("GetHitEnemy");
 
         if (Health <= 0)
             Die();
@@ -197,14 +210,18 @@ public class PlayerController : MonoBehaviour
     {
         if (isRooted) return;
 
-        TakeDamage();
+        TakeDamage(false);
+
+        AudioManagement.AudioManager.Instance.Play("GetHitWind");
     }
 
     public void Die()
     {
         //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         SceneManager.LoadScene("Loser");
-        Cursor.lockState = CursorLockMode.Confined;
+        // Cursor.lockState = CursorLockMode.Confined;
+        AudioManagement.AudioManager.Instance.Play("Die");
+
     }
 
 #if UNITY_EDITOR
