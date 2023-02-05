@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class BadMushroomCollider : MonoBehaviour
 {
+    [SerializeField] private Animator animator;
     [SerializeField] private float damageTimeout = 1f;
     private float lastDamageTime;
     private void OnTriggerEnter(Collider other)
@@ -15,6 +16,7 @@ public class BadMushroomCollider : MonoBehaviour
         {
             lastDamageTime = Time.time;
             player.TakeDamage();
+            animator.SetTrigger("Squish");
         }
     }
 }
