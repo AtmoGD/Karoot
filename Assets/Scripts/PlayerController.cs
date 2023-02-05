@@ -230,18 +230,24 @@ public class PlayerController : MonoBehaviour
 
         AudioManagement.AudioManager.Instance.Play("GetHitWind");
     }
-    IEnumerator Timer()
+    IEnumerator Timer(string _sceneName)
     {
         yield return new WaitForSecondsRealtime(3);
         SceneManager.LoadScene(2);
         Time.timeScale = 1f;
-        SceneManager.LoadScene("Loser");
+        SceneManager.LoadScene(_sceneName);
     }
     public void Die()
     {
         //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         Time.timeScale = 0f;
-        StartCoroutine(Timer());
+        StartCoroutine(Timer("Loser"));
+    }
+
+    public void Win()
+    {
+        Time.timeScale = 0f;
+        StartCoroutine(Timer("Winner"));
     }
 
     public void UpdateAnimation(bool _run, bool _squat, bool _jump)

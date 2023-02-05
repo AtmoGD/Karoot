@@ -58,9 +58,9 @@ public class UILoader : MonoBehaviour
     IEnumerator Timer(int theScene)
     {
         yield return new WaitForSecondsRealtime(3);
-        SceneManager.LoadScene(theScene);
+        SceneManager.LoadSceneAsync(theScene);
     }
-      
+
     public void GoToNextScene(int theScene)
     {
         DeactivateAllButtons();
