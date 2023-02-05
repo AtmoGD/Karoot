@@ -1,10 +1,13 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
+using System.Collections;
+using UnityEngine.UI;
 
 public class UILoader : MonoBehaviour
 {
+    public GameObject[] objs;
     public static bool gameIsPaused = false;
-
     public GameObject pauseMenuUI;
 
     void Update()
@@ -24,7 +27,11 @@ public class UILoader : MonoBehaviour
 
     public void Resume()
     {
-        pauseMenuUI?.SetActive(false);
+        if (!pauseMenuUI)
+        {
+            return;
+        }
+        pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         gameIsPaused = false;
         // Cursor.lockState = CursorLockMode.Locked;
@@ -32,18 +39,14 @@ public class UILoader : MonoBehaviour
 
     private void Pause()
     {
-        pauseMenuUI?.SetActive(true);
+        if (!pauseMenuUI)
+        {
+            return;
+        }
+        pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
         gameIsPaused = true;
         // Cursor.lockState = CursorLockMode.Confined;
-    }
-
-    public void StartLevel()
-    {
-        SceneManager.LoadSceneAsync(1);
-        gameIsPaused = false;
-        Time.timeScale = 1f;
-        // Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void QuitGame()
@@ -52,10 +55,26 @@ public class UILoader : MonoBehaviour
         Debug.Log("Exitbutton was clicked");
     }
 
-    public void GetToTitleScreen()
+    IEnumerator Timer(int theScene)
     {
-        SceneManager.LoadSceneAsync(0);
-        gameIsPaused = false;
-        Time.timeScale = 1f;
+        yield return new WaitForSecondsRealtime(3);
+        SceneManager.LoadScene(theScene);
+    }
+      
+    public void GoToNextScene(int theScene)
+    {
+        DeactivateAllButtons();
+        StartCoroutine(Timer(theScene));
+    }
+
+    public void DeactivateAllButtons()
+    {
+        objs = GameObject.FindGameObjectsWithTag("Button");
+
+        foreach (GameObject button in objs)
+        {
+            button.GetComponent<Button>().interactable = false;
+            //button.interactable = false ;
+        }
     }
 }
