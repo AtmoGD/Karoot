@@ -27,7 +27,7 @@ public class UILoader : MonoBehaviour
         pauseMenuUI?.SetActive(false);
         Time.timeScale = 1f;
         gameIsPaused = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        // Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void Pause()
@@ -35,7 +35,7 @@ public class UILoader : MonoBehaviour
         pauseMenuUI?.SetActive(true);
         Time.timeScale = 0f;
         gameIsPaused = true;
-        Cursor.lockState = CursorLockMode.Confined;
+        // Cursor.lockState = CursorLockMode.Confined;
     }
 
     public void StartLevel()
@@ -43,7 +43,7 @@ public class UILoader : MonoBehaviour
         SceneManager.LoadSceneAsync(1);
         gameIsPaused = false;
         Time.timeScale = 1f;
-        Cursor.lockState = CursorLockMode.Locked;
+        // Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void QuitGame()
