@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2544045519137341405}
   - component: {fileID: 2544045519137341406}
   - component: {fileID: 2544045519137341407}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: TopCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -141,7 +141,7 @@ GameObject:
   - component: {fileID: 2544045519363989027}
   - component: {fileID: 2544045519363989036}
   - component: {fileID: 1047564869496246190}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Skin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -237,7 +237,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2544045520177816173}
   - component: {fileID: 1886528248}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BadMushroom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -253,7 +253,7 @@ Transform:
   m_GameObject: {fileID: 2544045520177816174}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -4.75, y: 12.25, z: 0}
-  m_LocalScale: {x: 1.4999999, y: 1.4999999, z: 1.4999999}
+  m_LocalScale: {x: 1, y: 1.4999999, z: 1.4999999}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2544045519363989038}
@@ -293,7 +293,7 @@ GameObject:
   - component: {fileID: 5166099013664858999}
   - component: {fileID: 3173215871952287745}
   - component: {fileID: 2449626281368943500}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2544045519137341405}
   - component: {fileID: 2544045519137341406}
   - component: {fileID: 2544045519137341407}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: TopCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -140,7 +140,7 @@ GameObject:
   - component: {fileID: 2544045519363989027}
   - component: {fileID: 2544045519363989036}
   - component: {fileID: 1047564869496246190}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Skin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -236,7 +236,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2544045520177816173}
   - component: {fileID: 1956192476}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: JumpMushroom
   m_TagString: Untagged
   m_Icon: {fileID: 0}

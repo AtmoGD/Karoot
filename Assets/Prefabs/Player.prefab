@@ -419,6 +419,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camController: {fileID: 0}
+  animator: {fileID: 2439832713722834327}
   groundCheck: {fileID: 4080847871496866537}
   groundCheckRadius: 0.1
   groundLayer:

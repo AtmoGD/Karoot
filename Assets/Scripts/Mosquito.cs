@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Mosquito : MonoBehaviour
 {
+    [SerializeField] private Transform scaleTransform;
     [SerializeField] private Animator animator;
     [SerializeField] private float speed = 5f;
     [SerializeField] private List<Vector3> waypoints = new List<Vector3>();
@@ -30,7 +31,7 @@ public class Mosquito : MonoBehaviour
         direction.y = 0f;
         direction.Normalize();
 
-        transform.localScale = new Vector3(-Mathf.Sign(direction.x), 1f, 1f);
+        scaleTransform.localScale = new Vector3(-Mathf.Sign(direction.x), 1f, 1f);
 
         transform.position += direction * speed * Time.deltaTime;
 
