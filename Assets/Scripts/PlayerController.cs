@@ -56,6 +56,7 @@ public class PlayerController : MonoBehaviour
 
         if (isRooted)
         {
+            AudioManagement.AudioManager.Instance.ChangeVolume("KazooMusic", 1f);
             rootTimer += Time.deltaTime;
 
             rb.velocity = Vector2.zero;
@@ -68,6 +69,8 @@ public class PlayerController : MonoBehaviour
 
             return;
         }
+
+        AudioManagement.AudioManager.Instance.ChangeVolume("KazooMusic", 0f);
 
         if (autoJump)
         {
